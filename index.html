@@ -286,13 +286,17 @@
         cdrom: {
           url: "chromeos-v86.iso",
         },
-        memory_size: 512 * 1024 * 1024,
+        memory_size: 1024 * 1024 * 1024,
         vga_memory_size: 8 * 1024 * 1024,
         bios: {
           url: "seabios.bin",
         },
         vga_bios: {
           url: "vgabios.bin",
+        },
+        net_device: {
+          type: "virtio",
+          relay_url: "wss://relay.damus.io"
         },
         autostart: true,
       });
