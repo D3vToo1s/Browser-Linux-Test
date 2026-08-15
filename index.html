@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Google Sans', Roboto, -apple-system, sans-serif;
+      user-select: none;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background: radial-gradient(circle at 80% 20%, #bfdbfe 0%, #60a5fa 35%, #1e40af 100%);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Screen Area */
+    #desktop {
+      flex: 1;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #000;
+    }
+
+    #desktop canvas {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain;
+    }
+
+    /* ChromeOS Bottom Shelf */
+    #shelf {
+      height: 56px;
+      background: rgba(243, 244, 246, 0.85);
+      backdrop-filter: blur(20px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 12px;
+      z-index: 100;
+    }
+
+    /* Launcher Icon */
+    .launcher-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .launcher-btn:hover {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .launcher-btn div {
+      width: 16px;
+      height: 16px;
+      border: 3px solid #1f2937;
+      border-radius: 50%;
+    }
+
+    /* Pinned Apps Area */
+    .app-shelf {
+      display: flex;
+      gap: 12px;
+    }
+
+    .app-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      cursor: pointer;
+    }
+
+    /* Quick Settings Tray Button */
+    .status-tray {
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 20px;
+      padding: 6px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #1f2937;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .status-tray:hover {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    /* ChromeOS Quick Settings Menu Popup */
+    #quick-settings {
+      position: absolute;
+      bottom: 68px;
+      right: 12px;
+      width: 340px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(25px);
+      border-radius: 24px;
+      padding: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 101;
+    }
+
+    #quick-settings.active {
+      display: flex;
+    }
+
+    .qs-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .pill-btn {
+      background: #e0e7ff;
+      color: #3730a3;
+      padding: 6px 12px;
+      border-radius: 16px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .qs-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .qs-tile {
+      background: #f3f4f6;
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+    }
+
+    .qs-tile.active {
+      background: #2563eb;
+      color: white;
+    }
+
+    .qs-tile-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .slider-container input {
+      flex: 1;
+      accent-color: #2563eb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Main Viewport -->
+  <div id="desktop">
+    <!-- v86 will automatically inject its canvas here -->
+
+    <!-- ChromeOS Quick Settings Menu -->
+    <div id="quick-settings">
+      <div class="qs-header">
+        <span class="pill-btn">Sign out</span>
+        <div style="display: flex; gap: 8px;">
+          <span>⚙️</span>
+          <span>🔒</span>
+          <span>⚡</span>
+        </div>
+      </div>
+
+      <div class="qs-grid">
+        <div class="qs-tile active">
+          <div class="qs-tile-icon">📶</div>
+          <span>Wi-Fi</span>
+        </div>
+        <div class="qs-tile active">
+          <div class="qs-tile-icon">ᛒ</div>
+          <span>Bluetooth</span>
+        </div>
+        <div class="qs-tile">
+          <div class="qs-tile-icon">🌙</div>
+          <span>Night Light</span>
+        </div>
+      </div>
+
+      <div class="slider-container">
+        <span>🔊</span>
+        <input type="range" min="0" max="100" value="80">
+      </div>
+      <div class="slider-container">
+        <span>☀️</span>
+        <input type="range" min="0" max="100" value="100">
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Shelf -->
+  <div id="shelf">
+    <div class="launcher-btn">
+      <div></div>
+    </div>
+
+    <div class="app-shelf">
+      <div class="app-icon">🌐</div>
+      <div class="app-icon">📁</div>
+      <div class="app-icon">⚙️</div>
+    </div>
+
+    <div class="status-tray" id="tray-btn">
+      <span>📶</span>
+      <span>🔋 100%</span>
+      <span id="clock">12:00</span>
+    </div>
+  </div>
+
+  <!-- Import v86 library -->
+  <script src="libv86.js"></script>
+
+  <!-- UI & v86 Integration -->
+  <script>
+    // Quick Settings Menu Toggle
+    const trayBtn = document.getElementById('tray-btn');
+    const quickSettings = document.getElementById('quick-settings');
+
+    trayBtn.addEventListener('click', () => {
+      quickSettings.classList.toggle('active');
+    });
+
+    // Clock Logic
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // v86 Initialization
+    window.onload = function() {
+      const emulator = new V86Starter({
+        wasm_path: "v86.wasm",
+        screen_container: document.getElementById("desktop"),
+        cdrom: {
+          url: "chromeos-v86.iso",
+        },
+        memory_size: 512 * 1024 * 1024,
+        vga_memory_size: 8 * 1024 * 1024,
+        bios: {
+          url: "seabios.bin",
+        },
+        vga_bios: {
+          url: "vgabios.bin",
+        },
+        autostart: true,
+      });
+    };
+  </script>
+</body>
+</html>
